@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Relatório Financeiro — Victor Andrade · Abril 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-pale: #F5E9C8;
+    --dark: #0E0E0E;
+    --dark-2: #161616;
+    --dark-3: #1E1E1E;
+    --dark-4: #272727;
+    --dark-5: #303030;
+    --text: #E8E0D0;
+    --text-muted: #8A8070;
+    --text-dim: #5A5248;
+    --red: #C0392B;
+    --red-light: #E74C3C;
+    --green: #27AE60;
+    --green-light: #2ECC71;
+    --border: rgba(201,168,76,0.15);
+    --border-light: rgba(201,168,76,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .page {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 60px;
+  }
+
+  .brand { display: flex; flex-direction: column; gap: 4px; }
+  .brand-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); font-weight: 400; }
+  .brand-name { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--gold); letter-spacing: 0.02em; line-height: 1.1; }
+  .brand-sub { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px; }
+  .header-right { text-align: right; }
+  .client-name { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--text); letter-spacing: 0.05em; }
+  .ref-badge { display: inline-block; margin-top: 6px; background: rgba(201,168,76,0.1); border: 1px solid var(--border); color: var(--gold); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 12px; border-radius: 2px; }
+
+  .kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 60px; }
+
+  .kpi-card { background: var(--dark-3); border: 1px solid var(--border); padding: 28px 24px; border-radius: 4px; position: relative; overflow: hidden; }
+  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .kpi-card.gold::before { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .kpi-card.red::before { background: linear-gradient(90deg, transparent, var(--red-light), transparent); }
+  .kpi-card.neutral::before { background: linear-gradient(90deg, transparent, var(--text-muted), transparent); }
+  .kpi-label { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; }
+  .kpi-value { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; line-height: 1; margin-bottom: 8px; }
+  .kpi-card.gold .kpi-value { color: var(--gold-light); }
+  .kpi-card.red .kpi-value { color: var(--red-light); }
+  .kpi-card.neutral .kpi-value { color: var(--text); }
+  .kpi-desc { font-size: 11px; color: var(--text-dim); line-height: 1.4; }
+  .kpi-delta { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; margin-top: 8px; padding: 2px 8px; border-radius: 2px; }
+  .kpi-delta.up { background: rgba(39,174,96,0.12); color: var(--green-light); }
+  .kpi-delta.down { background: rgba(192,57,43,0.12); color: var(--red-light); }
+
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; margin-top: 60px; }
+  .section-header .line { flex: 1; height: 1px; background: var(--border); }
+  .section-title { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); white-space: nowrap; font-weight: 400; }
+
+  .analysis-card { background: var(--dark-3); border: 1px solid var(--border); border-radius: 4px; padding: 40px; margin-bottom: 24px; }
+  .analysis-card h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--gold); margin-bottom: 16px; font-weight: 400; }
+  .analysis-card p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 12px; }
+  .analysis-card p:last-child { margin-bottom: 0; }
+  .highlight-text { color: var(--text); font-weight: 400; }
+  .gold-text { color: var(--gold); }
+  .red-text { color: var(--red-light); }
+  .green-text { color: var(--green-light); }
+
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .chart-card { background: var(--dark-3); border: 1px solid var(--border); border-radius: 4px; padding: 32px 28px; }
+  .chart-title { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+  .chart-subtitle { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--text); margin-bottom: 28px; font-style: italic; }
+
+  .bar-chart { display: flex; align-items: flex-end; gap: 20px; height: 160px; margin-bottom: 16px; }
+  .bar-group { display: flex; flex-direction: column; align-items: center; gap: 8px; flex: 1; }
+  .bar-pair { display: flex; align-items: flex-end; gap: 4px; height: 130px; width: 100%; justify-content: center; }
+  .bar { border-radius: 2px 2px 0 0; min-width: 22px; flex: 1; max-width: 36px; }
+  .bar.receita { background: linear-gradient(180deg, var(--gold-light), var(--gold)); }
+  .bar.despesa { background: linear-gradient(180deg, #6B6B6B, #404040); }
+  .bar-label { font-size: 10px; color: var(--text-muted); text-align: center; letter-spacing: 0.05em; }
+  .bar-legend { display: flex; gap: 16px; margin-top: 4px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text-muted); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 1px; }
+  .legend-dot.receita { background: var(--gold); }
+  .legend-dot.despesa { background: #555; }
+
+  .donut-wrapper { display: flex; align-items: center; gap: 32px; }
+  .donut-svg { flex-shrink: 0; }
+  .donut-legend { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .donut-item { display: flex; flex-direction: column; gap: 2px; }
+  .donut-item-header { display: flex; align-items: center; justify-content: space-between; }
+  .donut-item-label { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-muted); }
+  .donut-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .donut-pct { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--text); }
+  .donut-bar-bg { height: 2px; background: var(--dark-5); border-radius: 1px; overflow: hidden; }
+  .donut-bar-fill { height: 100%; border-radius: 1px; }
+
+  .ratio-section { background: var(--dark-3); border: 1px solid var(--border); border-radius: 4px; padding: 40px; margin-bottom: 24px; }
+  .ratio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 28px; }
+  .ratio-item { display: flex; flex-direction: column; gap: 12px; }
+  .ratio-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .ratio-label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .ratio-values { display: flex; align-items: baseline; gap: 8px; }
+  .ratio-actual { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; }
+  .ratio-ideal { font-size: 11px; color: var(--text-dim); }
+  .ratio-bar-track { height: 6px; background: var(--dark-5); border-radius: 3px; overflow: visible; position: relative; }
+  .ratio-bar-fill { height: 100%; border-radius: 3px; }
+  .ratio-ideal-marker { position: absolute; top: -4px; width: 2px; height: 14px; background: rgba(255,255,255,0.3); border-radius: 1px; }
+  .ratio-ideal-marker::after { content: 'Ideal'; position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-size: 8px; color: var(--text-dim); white-space: nowrap; letter-spacing: 0.1em; }
+  .ratio-status { font-size: 11px; display: flex; align-items: center; gap: 6px; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .data-table th { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--border); font-weight: 400; }
+  .data-table th:not(:first-child) { text-align: right; }
+  .data-table td { padding: 13px 16px; font-size: 13px; color: var(--text-muted); border-bottom: 1px solid var(--border-light); }
+  .data-table td:not(:first-child) { text-align: right; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr.total-row td { color: var(--text); font-weight: 500; border-top: 1px solid var(--border); border-bottom: none; padding-top: 16px; }
+  .data-table tr.category-row td { color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; padding-top: 20px; border-bottom: none; }
+  .delta-pill { display: inline-block; padding: 2px 8px; border-radius: 2px; font-size: 11px; font-weight: 400; }
+  .delta-pill.pos { background: rgba(39,174,96,0.1); color: var(--green-light); }
+  .delta-pill.neg { background: rgba(192,57,43,0.1); color: var(--red-light); }
+  .delta-pill.neu { background: rgba(90,82,72,0.2); color: var(--text-muted); }
+
+  .housel-section { margin-bottom: 24px; }
+  .housel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .quote-card { background: var(--dark-3); border: 1px solid var(--border); border-radius: 4px; padding: 32px 28px; position: relative; overflow: hidden; }
+  .quote-card::before { content: '"'; position: absolute; top: -10px; left: 20px; font-family: 'Cormorant Garamond', serif; font-size: 120px; color: var(--gold); opacity: 0.08; line-height: 1; pointer-events: none; }
+  .quote-text { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-style: italic; color: var(--text); line-height: 1.6; margin-bottom: 16px; position: relative; z-index: 1; }
+  .quote-author { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+  .quote-application { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-light); font-size: 12px; color: var(--text-dim); line-height: 1.6; }
+
+  .strategy-list { display: flex; flex-direction: column; gap: 16px; }
+  .strategy-item { background: var(--dark-3); border: 1px solid var(--border); border-radius: 4px; padding: 28px 32px; display: grid; grid-template-columns: 48px 1fr auto; gap: 20px; align-items: start; }
+  .strategy-number { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: var(--gold); opacity: 0.4; line-height: 1; font-style: italic; }
+  .strategy-content h4 { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 8px; letter-spacing: 0.02em; }
+  .strategy-content p { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+  .strategy-impact { text-align: right; white-space: nowrap; }
+  .impact-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .impact-value { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--green-light); }
+  .impact-badge { display: inline-block; margin-top: 4px; padding: 2px 8px; border-radius: 2px; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; }
+  .impact-badge.high { background: rgba(192,57,43,0.15); color: var(--red-light); }
+  .impact-badge.med { background: rgba(201,168,76,0.12); color: var(--gold); }
+  .impact-badge.low { background: rgba(39,174,96,0.1); color: var(--green-light); }
+
+  .patrimonial-card { background: linear-gradient(135deg, rgba(201,168,76,0.06), rgba(14,14,14,0)); border: 1px solid var(--border); border-radius: 4px; padding: 40px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; margin-bottom: 24px; }
+  .patrimonial-label { font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+  .patrimonial-value { font-family: 'DM Serif Display', serif; font-size: 48px; color: var(--gold); line-height: 1; }
+  .patrimonial-note { font-size: 13px; color: var(--text-dim); margin-top: 12px; line-height: 1.5; }
+  .diff-block { text-align: right; }
+  .diff-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
+  .diff-value { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--red-light); }
+
+  .footer { margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-family: 'DM Serif Display', serif; font-size: 16px; color: var(--gold); opacity: 0.5; }
+  .footer-note { font-size: 11px; color: var(--text-dim); text-align: right; line-height: 1.5; }
+
+  .racional { background: rgba(201,168,76,0.04); border: 1px solid rgba(201,168,76,0.2); border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; padding: 28px 32px; margin-top: 24px; }
+  .racional-title { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; font-weight: 400; }
+  .racional p { font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--dark); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  @media print {
+    body { background: #0e0e0e; }
+    .kpi-card, .chart-card, .analysis-card, .ratio-section, .quote-card, .strategy-item { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand">
+      <span class="brand-label">GM Assessoria Financeira</span>
+      <div class="brand-name">Gestão &amp; <em style="font-style:italic">Otimização</em></div>
+      <span class="brand-sub">Rio de Janeiro, RJ · 2026</span>
+    </div>
+    <div class="header-right">
+      <div class="client-name">Victor Andrade</div>
+      <span class="ref-badge">Referência: Abril 2026</span>
+    </div>
+  </header>
+
+  <!--
+    DADOS CORRIGIDOS E RECALCULADOS:
+    ─────────────────────────────────────────────────────
+    RECEITA ABRIL: R$ 22.913,51
+
+    ESSENCIAL ABRIL:
+      Aluguel:        5.300,00
+      Transporte:     1.355,13
+      Alimentação:    1.117,40
+      Energia:           62,09
+      Internet:         209,99
+      Celular:          689,65
+      Plano de saúde:   323,31
+      Saúde:          4.390,68
+      Hospedagem:         0,00
+    TOTAL ESSENCIAL: 13.448,25
+
+    ESTILO DE VIDA ABRIL:
+      Academia:       1.940,00
+      Refeição:       1.622,63
+      Lazer:            336,38
+      Educação:         951,89
+      Compras diversas: 5.729,44
+      Serviços:         462,52
+      Streamings:        36,80
+      Aéreo:          1.651,49
+      Salão de Beleza:  368,00
+      Anuidade:         262,20
+    TOTAL ESTILO VIDA: 13.361,35
+
+    INVESTIMENTOS:   5.216,39
+
+    TOTAL SAÍDAS:    31.026,00 (sem invest) / 32.026,00 (com invest)
+    SOBRA (Rec - Ess - Estilo - Invest): 22.913,51 - 32.025,99 = -9.112,48
+    DESPESAS (Ess + Estilo): 26.809,60  ← mantido para KPI de despesas operacionais
+    ─────────────────────────────────────────────────────
+    Nota: O total de "Despesas Totais" no KPI refere-se a Essencial + Estilo de Vida = 13.448,25 + 13.361,35 = 26.809,60
+    A sobra considera também os investimentos obrigatórios (consórcios).
+  -->
+
+  <!-- KPI CARDS -->
+  <div class="kpi-row">
+    <div class="kpi-card gold">
+      <div class="kpi-label">Receita Total</div>
+      <div class="kpi-value">R$ 22.913<span style="font-size:22px">,51</span></div>
+      <div class="kpi-desc">Faturamento consolidado no mês</div>
+      <span class="kpi-delta down">▼ -7,0% vs março</span>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Despesas Totais</div>
+      <div class="kpi-value">R$ 26.809<span style="font-size:22px">,60</span></div>
+      <div class="kpi-desc">Essencial + Estilo de Vida</div>
+      <span class="kpi-delta down">▲ +4,1% vs março</span>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">Sobra Mensal</div>
+      <div class="kpi-value" style="font-size:28px">-R$ 9.112<span style="font-size:18px">,48</span></div>
+      <div class="kpi-desc">Déficit após despesas e investimentos</div>
+      <span class="kpi-delta down">▼ Piora vs março (-R$4.471)</span>
+    </div>
+  </div>
+
+  <!-- ANÁLISE NARRATIVA -->
+  <div class="section-header">
+    <span class="section-title">Análise de Fluxo de Caixa e Eficiência</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="analysis-card">
+    <h3>Cenário de Abril 2026</h3>
+    <p>
+      O mês de abril consolidou o segundo mês consecutivo de <span class="highlight-text">déficit operacional</span>, com uma sobra negativa de <span class="red-text">-R$ 9.112,48</span> após contabilizar todas as despesas essenciais, estilo de vida e os investimentos em consórcios. A receita total de <span class="highlight-text">R$ 22.913,51</span> ficou significativamente abaixo do total de saídas de <span class="red-text">R$ 32.025,99</span>, exigindo atenção imediata e reestruturação estratégica.
+    </p>
+    <p>
+      As despesas essenciais somaram <span class="red-text">R$ 13.448,25</span> (58,69% da receita), com destaque para a saúde que atingiu R$ 4.390,68 — um salto de 250% em relação a março. O componente de <span class="gold-text">Estilo de Vida atingiu R$ 13.361,35</span> — representando 58,31% da receita — um nível crítico impulsionado por compras diversas (R$ 5.729,44), gastos aéreos (R$ 1.651,49) e academia (R$ 1.940,00).
+    </p>
+    <p>
+      Um ponto positivo digno de nota é que os <span class="highlight-text">investimentos foram mantidos em R$ 5.216,39</span> (22,77% da receita), demonstrando comprometimento com a construção patrimonial mesmo em um momento desafiador. A disciplina de manter os aportes durante períodos difíceis é, segundo Morgan Housel, um dos maiores diferenciais do investidor de longo prazo.
+    </p>
+    <div class="racional">
+      <div class="racional-title">Racional Estratégico · GM Assessoria Financeira</div>
+      <p>Abril confirma pressão intensa no fluxo de caixa, com despesas totais (R$ 32.025,99) superando a receita (R$ 22.913,51) em R$ 9.112,48. O foco se divide em dois eixos urgentes: (1) <strong style="color:var(--text)">revisão imediata das despesas de Estilo de Vida</strong>, que ultrapassam 58% da receita, com destaque para compras diversas e gastos aéreos; e (2) <strong style="color:var(--text)">investigação da despesa de saúde</strong> (R$ 4.390,68) para distinguir gastos pontuais de recorrentes. A base salarial de R$ 20.000 segue sendo o alicerce para os ajustes necessários.</p>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="section-header">
+    <span class="section-title">Evolução Mensal · Fev — Mar — Abr</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="charts-grid">
+    <!-- Bar Chart -->
+    <div class="chart-card">
+      <div class="chart-title">Evolução Mensal</div>
+      <div class="chart-subtitle">Receitas vs Despesas Totais (Fev / Mar / Abr)</div>
+
+      <!-- Max value para escala: Abr total saídas R$32.026 = 100% -->
+      <div class="bar-chart">
+        <!-- FEV: Receita 24.964 / Saídas ~31.800 aprox -->
+        <div class="bar-group">
+          <div class="bar-pair">
+            <div class="bar receita" style="height:78%" title="Receita Fev R$24.964,90"></div>
+            <div class="bar despesa" style="height:74%" title="Despesas Fev R$23.932,64"></div>
+          </div>
+          <div class="bar-label">FEV</div>
+        </div>
+        <!-- MAR: Receita 21.291 / Saídas 25.762+5.216=30.979 -->
+        <div class="bar-group">
+          <div class="bar-pair">
+            <div class="bar receita" style="height:66%" title="Receita Mar R$21.291,33"></div>
+            <div class="bar despesa" style="height:97%" title="Saídas Mar R$30.979,40"></div>
+          </div>
+          <div class="bar-label">MAR</div>
+        </div>
+        <!-- ABR: Receita 22.913 / Saídas 32.026 -->
+        <div class="bar-group">
+          <div class="bar-pair">
+            <div class="bar receita" style="height:72%" title="Receita Abr R$22.913,51"></div>
+            <div class="bar despesa" style="height:100%" title="Saídas Abr R$32.025,99"></div>
+          </div>
+          <div class="bar-label">ABR</div>
+        </div>
+      </div>
+
+      <div class="bar-legend">
+        <div class="legend-item"><div class="legend-dot receita"></div> Receitas</div>
+        <div class="legend-item"><div class="legend-dot despesa"></div> Total Saídas</div>
+      </div>
+
+      <div style="margin-top:20px; display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:11px; color:var(--text-dim); display:flex; justify-content:space-between;">
+          <span>Fev: R$ 24.964 / R$ 23.932</span>
+          <span class="green-text">+R$ 1.032</span>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); display:flex; justify-content:space-between;">
+          <span>Mar: R$ 21.291 / R$ 30.979</span>
+          <span class="red-text">-R$ 9.688</span>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); display:flex; justify-content:space-between;">
+          <span>Abr: R$ 22.913 / R$ 32.025</span>
+          <span class="red-text">-R$ 9.112</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Donut: Composição de Despesas Abril -->
+    <!-- Total saídas: 32.025,99 → Essencial 13.448,25 = 42,0% · Estilo 13.361,35 = 41,7% · Invest 5.216,39 = 16,3% -->
+    <div class="chart-card">
+      <div class="chart-title">Composição de Saídas</div>
+      <div class="chart-subtitle">Distribuição em Abril 2026</div>
+
+      <div class="donut-wrapper">
+        <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C9A84C"/>
+              <stop offset="100%" stop-color="#8B6914"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#C0392B"/>
+              <stop offset="100%" stop-color="#7B241C"/>
+            </linearGradient>
+            <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#27AE60"/>
+              <stop offset="100%" stop-color="#1A7040"/>
+            </linearGradient>
+          </defs>
+          <!-- Circ r=44 → ~276 -->
+          <!-- Essencial 42.0% = 116 · Estilo 41.7% = 115 · Invest 16.3% = 45 -->
+          <circle cx="60" cy="60" r="44" fill="none" stroke="#1E1E1E" stroke-width="14"/>
+          <circle cx="60" cy="60" r="44" fill="none" stroke="url(#g1)" stroke-width="14"
+                  stroke-dasharray="116 276" stroke-dashoffset="69" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="44" fill="none" stroke="url(#g2)" stroke-width="14"
+                  stroke-dasharray="115 276" stroke-dashoffset="-47" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="44" fill="none" stroke="url(#g3)" stroke-width="14"
+                  stroke-dasharray="45 276" stroke-dashoffset="-162" transform="rotate(-90 60 60)"/>
+          <text x="60" y="55" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="13" fill="#E8E0D0">ABR</text>
+          <text x="60" y="70" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="11" fill="#8A8070">2026</text>
+        </svg>
+
+        <div class="donut-legend">
+          <div class="donut-item">
+            <div class="donut-item-header">
+              <div class="donut-item-label"><div class="donut-dot" style="background:var(--gold)"></div> Essencial</div>
+              <div class="donut-pct">42,0%</div>
+            </div>
+            <div class="donut-bar-bg"><div class="donut-bar-fill" style="width:42%; background:var(--gold)"></div></div>
+            <div style="font-size:10px; color:var(--text-dim)">R$ 13.448,25</div>
+          </div>
+          <div class="donut-item">
+            <div class="donut-item-header">
+              <div class="donut-item-label"><div class="donut-dot" style="background:var(--red-light)"></div> Estilo de Vida</div>
+              <div class="donut-pct">41,7%</div>
+            </div>
+            <div class="donut-bar-bg"><div class="donut-bar-fill" style="width:41.7%; background:var(--red-light)"></div></div>
+            <div style="font-size:10px; color:var(--text-dim)">R$ 13.361,35</div>
+          </div>
+          <div class="donut-item">
+            <div class="donut-item-header">
+              <div class="donut-item-label"><div class="donut-dot" style="background:var(--green-light)"></div> Investimentos</div>
+              <div class="donut-pct">16,3%</div>
+            </div>
+            <div class="donut-bar-bg"><div class="donut-bar-fill" style="width:16.3%; background:var(--green-light)"></div></div>
+            <div style="font-size:10px; color:var(--text-dim)">R$ 5.216,39</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOBRA MENSAL CHART -->
+  <div class="chart-card" style="margin-bottom:24px">
+    <div class="chart-title">Comparativo de Sobra Mensal</div>
+    <div class="chart-subtitle">Fevereiro · Março · Abril 2026</div>
+
+    <div style="display:flex; gap:32px; align-items:center; margin-top:8px">
+      <!-- Fev +1.032 -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1">
+        <div style="height:120px; display:flex; flex-direction:column; justify-content:flex-end; align-items:center; width:100%">
+          <div style="background:linear-gradient(180deg,#2ECC71,#27AE60); width:60%; height:14px; border-radius:3px 3px 0 0"></div>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--green-light); text-align:center">+R$ 1.032,26</div>
+        <div style="font-size:10px; color:var(--text-dim); letter-spacing:0.1em">FEVEREIRO</div>
+      </div>
+      <div style="width:1px; height:120px; background:var(--border)"></div>
+      <!-- Mar -9.688 -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1">
+        <div style="height:120px; display:flex; flex-direction:column; justify-content:flex-start; align-items:center; width:100%">
+          <div style="background:linear-gradient(0deg,#E74C3C,#C0392B); width:60%; height:100px; border-radius:0 0 3px 3px"></div>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--red-light); text-align:center">-R$ 9.688,07</div>
+        <div style="font-size:10px; color:var(--text-dim); letter-spacing:0.1em">MARÇO</div>
+      </div>
+      <div style="width:1px; height:120px; background:var(--border)"></div>
+      <!-- Abr -9.112 -->
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; flex:1">
+        <div style="height:120px; display:flex; flex-direction:column; justify-content:flex-start; align-items:center; width:100%">
+          <div style="background:linear-gradient(0deg,#E74C3C,#C0392B); width:60%; height:94px; border-radius:0 0 3px 3px"></div>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif; font-size:15px; color:var(--red-light); text-align:center">-R$ 9.112,48</div>
+        <div style="font-size:10px; color:var(--text-dim); letter-spacing:0.1em">ABRIL</div>
+      </div>
+      <div style="flex:1.5; background:var(--dark-4); border-radius:4px; padding:20px; border:1px solid var(--border-light)">
+        <div style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px">Tendência</div>
+        <p style="font-size:12px; color:var(--text-muted); line-height:1.7">Março e abril registram déficits expressivos após um fevereiro equilibrado. A redução marginal de <span style="color:var(--text)">R$ 576</span> de março para abril indica estabilidade, mas o nível de déficit ainda exige ação imediata para evitar erosão patrimonial contínua.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPARATIVO DE DESPESAS -->
+  <div class="section-header">
+    <span class="section-title">Comparativo Detalhado de Despesas</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="analysis-card" style="padding: 0; overflow:hidden">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Categoria</th>
+          <th>Fevereiro</th>
+          <th>Março</th>
+          <th>Abril</th>
+          <th>Var. Mar→Abr</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- RECEITAS -->
+        <tr class="category-row"><td colspan="5">Receitas</td></tr>
+        <tr>
+          <td>Salário Líquido</td>
+          <td>R$ 20.000,00</td>
+          <td>R$ 20.000,00</td>
+          <td>R$ 20.000,00</td>
+          <td><span class="delta-pill neu">0%</span></td>
+        </tr>
+        <tr>
+          <td>Outros + Juros Financeiros</td>
+          <td>R$ 4.964,90</td>
+          <td>R$ 1.291,33</td>
+          <td>R$ 2.913,51</td>
+          <td><span class="delta-pill pos">▲ +125%</span></td>
+        </tr>
+        <tr class="total-row">
+          <td>Receita Total</td>
+          <td>R$ 24.964,90</td>
+          <td>R$ 21.291,33</td>
+          <td>R$ 22.913,51</td>
+          <td><span class="delta-pill pos">▲ +7,6%</span></td>
+        </tr>
+
+        <!-- ESSENCIAL -->
+        <tr class="category-row"><td colspan="5">Despesas Essenciais</td></tr>
+        <tr>
+          <td>Aluguel</td>
+          <td>R$ 5.300,00</td>
+          <td>R$ 5.300,00</td>
+          <td>R$ 5.300,00</td>
+          <td><span class="delta-pill neu">0%</span></td>
+        </tr>
+        <tr>
+          <td>Transporte</td>
+          <td>R$ 3.180,38</td>
+          <td>R$ 2.077,61</td>
+          <td>R$ 1.355,13</td>
+          <td><span class="delta-pill pos">▼ -35%</span></td>
+        </tr>
+        <tr>
+          <td>Alimentação</td>
+          <td>R$ 336,13</td>
+          <td>R$ 2.325,42</td>
+          <td>R$ 1.117,40</td>
+          <td><span class="delta-pill pos">▼ -52%</span></td>
+        </tr>
+        <tr>
+          <td>Energia</td>
+          <td>R$ —</td>
+          <td>R$ —</td>
+          <td>R$ 62,09</td>
+          <td><span class="delta-pill neu">—</span></td>
+        </tr>
+        <tr>
+          <td>Internet</td>
+          <td>R$ 12,50</td>
+          <td>R$ 209,99</td>
+          <td>R$ 209,99</td>
+          <td><span class="delta-pill neu">0%</span></td>
+        </tr>
+        <tr>
+          <td>Celular</td>
+          <td>R$ 477,69</td>
+          <td>R$ 426,69</td>
+          <td>R$ 689,65</td>
+          <td><span class="delta-pill neg">▲ +62%</span></td>
+        </tr>
+        <tr>
+          <td>Plano de Saúde</td>
+          <td>R$ 527,10</td>
+          <td>R$ 323,31</td>
+          <td>R$ 323,31</td>
+          <td><span class="delta-pill neu">0%</span></td>
+        </tr>
+        <tr>
+          <td>Saúde (demais)</td>
+          <td>R$ 999,00</td>
+          <td>R$ 1.254,24</td>
+          <td>R$ 4.390,68</td>
+          <td><span class="delta-pill neg">▲ +250%</span></td>
+        </tr>
+        <tr>
+          <td>Hospedagem</td>
+          <td>R$ 2.483,31</td>
+          <td>R$ 954,04</td>
+          <td>R$ —</td>
+          <td><span class="delta-pill pos">▼ -100%</span></td>
+        </tr>
+        <tr class="total-row">
+          <td>Total Essencial</td>
+          <td>R$ 13.316,11</td>
+          <td>R$ 12.871,30</td>
+          <td>R$ 13.448,25</td>
+          <td><span class="delta-pill neg">▲ +4,5%</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--text-dim)">% da Receita</td>
+          <td style="color:var(--gold)">53,34%</td>
+          <td style="color:var(--gold)">60,46%</td>
+          <td style="color:var(--red-light)">58,69%</td>
+          <td><span class="delta-pill pos">▼ Leve melhora</span></td>
+        </tr>
+
+        <!-- ESTILO DE VIDA -->
+        <tr class="category-row"><td colspan="5">Estilo de Vida</td></tr>
+        <tr>
+          <td>Academia</td>
+          <td>R$ 189,90</td>
+          <td>R$ 388,70</td>
+          <td>R$ 1.940,00</td>
+          <td><span class="delta-pill neg">▲ +399%</span></td>
+        </tr>
+        <tr>
+          <td>Refeição (restaurante)</td>
+          <td>R$ 2.498,20</td>
+          <td>R$ 1.596,51</td>
+          <td>R$ 1.622,63</td>
+          <td><span class="delta-pill neu">≈ 0%</span></td>
+        </tr>
+        <tr>
+          <td>Lazer</td>
+          <td>R$ 576,71</td>
+          <td>R$ 523,66</td>
+          <td>R$ 336,38</td>
+          <td><span class="delta-pill pos">▼ -36%</span></td>
+        </tr>
+        <tr>
+          <td>Educação</td>
+          <td>R$ 617,75</td>
+          <td>R$ 1.199,88</td>
+          <td>R$ 951,89</td>
+          <td><span class="delta-pill pos">▼ -21%</span></td>
+        </tr>
+        <tr>
+          <td>Compras Diversas</td>
+          <td>R$ 3.852,49</td>
+          <td>R$ 6.377,00</td>
+          <td>R$ 5.729,44</td>
+          <td><span class="delta-pill pos">▼ -10%</span></td>
+        </tr>
+        <tr>
+          <td>Serviços</td>
+          <td>R$ 244,29</td>
+          <td>R$ —</td>
+          <td>R$ 462,52</td>
+          <td><span class="delta-pill neu">—</span></td>
+        </tr>
+        <tr>
+          <td>Streamings</td>
+          <td>R$ 247,02</td>
+          <td>R$ 105,03</td>
+          <td>R$ 36,80</td>
+          <td><span class="delta-pill pos">▼ -65%</span></td>
+        </tr>
+        <tr>
+          <td>Aéreo</td>
+          <td>R$ 1.586,46</td>
+          <td>R$ 2.253,77</td>
+          <td>R$ 1.651,49</td>
+          <td><span class="delta-pill pos">▼ -27%</span></td>
+        </tr>
+        <tr>
+          <td>Salão de Beleza</td>
+          <td>R$ 225,99</td>
+          <td>R$ 297,90</td>
+          <td>R$ 368,00</td>
+          <td><span class="delta-pill neg">▲ +23%</span></td>
+        </tr>
+        <tr>
+          <td>Anuidade</td>
+          <td>R$ 417,00</td>
+          <td>R$ 269,20</td>
+          <td>R$ 262,20</td>
+          <td><span class="delta-pill pos">▼ -3%</span></td>
+        </tr>
+        <tr class="total-row">
+          <td>Total Estilo de Vida</td>
+          <td>R$ 10.455,81</td>
+          <td>R$ 13.011,65</td>
+          <td>R$ 13.361,35</td>
+          <td><span class="delta-pill neg">▲ +2,7%</span></td>
+        </tr>
+        <tr>
+          <td style="color:var(--text-dim)">% da Receita</td>
+          <td style="color:var(--gold)">41,88%</td>
+          <td style="color:var(--red-light)">61,12%</td>
+          <td style="color:var(--red-light)">58,31%</td>
+          <td><span class="delta-pill pos">▼ Leve melhora</span></td>
+        </tr>
+
+        <!-- INVESTIMENTOS -->
+        <tr class="category-row"><td colspan="5">Investimentos</td></tr>
+        <tr>
+          <td>Consórcio Imobiliário</td>
+          <td>R$ 3.072,88</td>
+          <td>R$ 3.071,99</td>
+          <td>R$ 3.071,93</td>
+          <td><span class="delta-pill neu">0%</span></td>
+        </tr>
+        <tr>
+          <td>Consórcio Automotivo</td>
+          <td>R$ 2.056,41</td>
+          <td>R$ 2.144,46</td>
+          <td>R$ 2.144,46</td>
+          <td><span class="delta-pill neu">0%</span></td>
+        </tr>
+        <tr class="total-row">
+          <td>Total Investimentos</td>
+          <td>R$ 5.129,29</td>
+          <td>R$ 5.216,45</td>
+          <td>R$ 5.216,39</td>
+          <td><span class="delta-pill neu">≈ 0%</span></td>
+        </tr>
+
+        <!-- SOBRA -->
+        <tr class="category-row"><td colspan="5">Resultado</td></tr>
+        <tr class="total-row">
+          <td>Sobra Líquida (Rec. − todas saídas)</td>
+          <td style="color:var(--green-light)">+R$ 1.032,26</td>
+          <td style="color:var(--red-light)">-R$ 9.688,07</td>
+          <td style="color:var(--red-light)">-R$ 9.112,48</td>
+          <td><span class="delta-pill pos">▲ +R$ 576</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ANÁLISE DE PROPORÇÕES -->
+  <div class="section-header">
+    <span class="section-title">Análise de Proporções · Saúde Financeira</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="ratio-section">
+    <h3 style="font-family:'DM Serif Display',serif; font-size:20px; color:var(--text); font-weight:400; margin-bottom:8px">Onde Victor está vs. onde deveria estar</h3>
+    <p style="font-size:13px; color:var(--text-dim); line-height:1.7">Baseado nas referências da regra 50/30/20 (Elizabeth Warren) e nas recomendações de educação financeira consolidadas. A comparação abaixo revela os pontos críticos de desalinhamento em relação à receita de R$ 22.913,51.</p>
+
+    <div class="ratio-grid">
+      <div class="ratio-item">
+        <div class="ratio-header"><div class="ratio-label">Despesas Essenciais</div></div>
+        <div class="ratio-values">
+          <div class="ratio-actual" style="color:var(--red-light)">58,7%</div>
+          <div class="ratio-ideal">Ideal: até 50%</div>
+        </div>
+        <div class="ratio-bar-track">
+          <div class="ratio-bar-fill" style="width:100%; background:linear-gradient(90deg,var(--gold),var(--red-light))"></div>
+          <div class="ratio-ideal-marker" style="left:50%"></div>
+        </div>
+        <div class="ratio-status">
+          <div class="status-dot" style="background:var(--red-light)"></div>
+          <span style="font-size:11px; color:var(--text-muted)">Acima em 8,7 p.p. — saúde pontual (R$4.390) e celular (R$689) são os maiores desvios do mês</span>
+        </div>
+      </div>
+
+      <div class="ratio-item">
+        <div class="ratio-header"><div class="ratio-label">Estilo de Vida / Desejos</div></div>
+        <div class="ratio-values">
+          <div class="ratio-actual" style="color:var(--red-light)">58,3%</div>
+          <div class="ratio-ideal">Ideal: até 30%</div>
+        </div>
+        <div class="ratio-bar-track">
+          <div class="ratio-bar-fill" style="width:100%; background:var(--red-light)"></div>
+          <div class="ratio-ideal-marker" style="left:30%"></div>
+        </div>
+        <div class="ratio-status">
+          <div class="status-dot" style="background:var(--red-light)"></div>
+          <span style="font-size:11px; color:var(--text-muted)">Crítico: 28,3 p.p. acima do ideal. Compras diversas (R$5.729), aéreo (R$1.651) e academia (R$1.940) são os vetores principais</span>
+        </div>
+      </div>
+
+      <div class="ratio-item">
+        <div class="ratio-header"><div class="ratio-label">Investimentos / Poupança</div></div>
+        <div class="ratio-values">
+          <div class="ratio-actual" style="color:var(--gold)">22,8%</div>
+          <div class="ratio-ideal">Ideal: mín. 20%</div>
+        </div>
+        <div class="ratio-bar-track">
+          <div class="ratio-bar-fill" style="width:22.8%; background:var(--gold)"></div>
+          <div class="ratio-ideal-marker" style="left:20%"></div>
+        </div>
+        <div class="ratio-status">
+          <div class="status-dot" style="background:var(--green-light)"></div>
+          <span style="font-size:11px; color:var(--text-muted)">Dentro do recomendado — porém o déficit estrutural está sendo financiado por reservas patrimoniais</span>
+        </div>
+      </div>
+
+      <div class="ratio-item">
+        <div class="ratio-header"><div class="ratio-label">Sobra após todos os gastos</div></div>
+        <div class="ratio-values">
+          <div class="ratio-actual" style="color:var(--red-light)">-39,8%</div>
+          <div class="ratio-ideal">Ideal: ≥ 0%</div>
+        </div>
+        <div class="ratio-bar-track">
+          <div class="ratio-bar-fill" style="width:4%; background:var(--red-light)"></div>
+          <div class="ratio-ideal-marker" style="left:0%"></div>
+        </div>
+        <div class="ratio-status">
+          <div class="status-dot" style="background:var(--red-light)"></div>
+          <span style="font-size:11px; color:var(--text-muted)">Essencial (58,7%) + Estilo de Vida (58,3%) + Investimentos (22,8%) = 139,8% da receita — déficit estrutural severo</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px; background:var(--dark-4); border-radius:4px; padding:24px; border:1px solid var(--border-light)">
+      <div style="font-size:9px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:12px">Meta de Reestruturação · Próximos 3 Meses</div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; text-align:center">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--text)">≤50%</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:4px">Essencial<br><span style="color:var(--text-muted)">hoje 58,7%</span></div>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--text)">≤30%</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:4px">Estilo de Vida<br><span style="color:var(--text-muted)">hoje 58,3%</span></div>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--text)">≥20%</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:4px">Investimentos<br><span style="color:var(--gold)">hoje 22,8% ✓</span></div>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif; font-size:24px; color:var(--green-light)">+R$ 0</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:4px">Sobra mínima<br><span style="color:var(--text-muted)">hoje -R$ 9.112</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PSICOLOGIA FINANCEIRA - HOUSEL -->
+  <div class="section-header">
+    <span class="section-title">Psicologia Financeira · Morgan Housel</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="analysis-card" style="margin-bottom:24px">
+    <h3>Uma mudança de mentalidade antes de qualquer planilha</h3>
+    <p>Em <em>A Psicologia do Dinheiro</em>, Morgan Housel defende que <span class="highlight-text">o comportamento financeiro é mais determinante do que o conhecimento técnico</span>. Não basta saber o que fazer — é preciso entender por que fazemos o que fazemos. Os ensinamentos abaixo foram selecionados especialmente para o momento de Victor, com aplicações práticas ao seu contexto atual.</p>
+  </div>
+
+  <div class="housel-grid housel-section">
+    <div class="quote-card">
+      <div class="quote-text">"Riqueza é o que você não vê. É os carros não comprados, os diamantes não adquiridos, as roupas de grife não vestidas."</div>
+      <div class="quote-author">Morgan Housel · A Psicologia do Dinheiro</div>
+      <div class="quote-application">
+        <strong style="color:var(--text); font-size:11px">Aplicação para Victor:</strong> R$ 5.729 em compras diversas, R$ 1.651 em aéreo e R$ 1.940 em academia em um único mês representam riqueza que <em>não está sendo construída</em>. Cada real gasto é um real a menos compondo patrimônio. O dinheiro invisível — o que fica — é o que mais cresce.
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">"Economizar dinheiro é a lacuna entre seu ego e sua renda. É criado pela humildade — e destruído pelo desejo de impressionar."</div>
+      <div class="quote-author">Morgan Housel · A Psicologia do Dinheiro</div>
+      <div class="quote-application">
+        <strong style="color:var(--text); font-size:11px">Aplicação para Victor:</strong> Num período de transição de vida, é natural que o padrão de consumo acompanhe a nova realidade. Mas Housel nos lembra que o verdadeiro ganho está em resistir ao impulso de demonstrar prosperidade antes que ela seja consolidada.
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">"O maior retorno que você pode obter é controlar o seu tempo. Dinheiro compra isso. Não joias, não carros."</div>
+      <div class="quote-author">Morgan Housel · A Psicologia do Dinheiro</div>
+      <div class="quote-application">
+        <strong style="color:var(--text); font-size:11px">Aplicação para Victor:</strong> Com patrimônio financeiro de R$ 415.556 construído, Victor já demonstrou capacidade de acumulação. O objetivo agora é preservar e ampliar essa liberdade — e isso exige que as despesas mensais voltem a ser cobertas pela receita, sem consumir reservas.
+      </div>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-text">"Planejar é importante. Mas o plano mais valioso é o que te mantém no jogo, não o que maximiza o retorno."</div>
+      <div class="quote-author">Morgan Housel · A Psicologia do Dinheiro</div>
+      <div class="quote-application">
+        <strong style="color:var(--text); font-size:11px">Aplicação para Victor:</strong> Manter os investimentos durante o período deficitário foi uma decisão sábia — "ficar no jogo" é o princípio central de Housel. Agora o passo seguinte é garantir que o jogo não seja financiado por erosão patrimonial, ajustando o fluxo de caixa operacional.
+      </div>
+    </div>
+  </div>
+
+  <!-- ESTRATÉGIAS DE OTIMIZAÇÃO -->
+  <div class="section-header">
+    <span class="section-title">Estratégias de Otimização Financeira</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="analysis-card" style="margin-bottom:24px">
+    <h3>Plano de Ação para Maio 2026</h3>
+    <p>As estratégias abaixo foram elaboradas com base nos dados corrigidos de abril e visam restaurar o equilíbrio do fluxo de caixa em até 60 dias, mantendo os investimentos intactos e sem comprometer o bem-estar essencial.</p>
+  </div>
+
+  <div class="strategy-list">
+
+    <div class="strategy-item">
+      <div class="strategy-number">01</div>
+      <div class="strategy-content">
+        <h4>Revisão crítica de Compras Diversas</h4>
+        <p>Com R$ 5.729,44 em compras diversas em abril — o maior item de Estilo de Vida — uma auditoria detalhada é prioritária. Proposta: estabelecer teto de R$ 2.500/mês, identificando recorrentes vs. pontuais. Uma redução de 50% representaria R$ 2.864 de impacto imediato no déficit, sendo a alavanca mais poderosa disponível para ajuste rápido.</p>
+      </div>
+      <div class="strategy-impact">
+        <div class="impact-label">Impacto</div>
+        <div class="impact-value">-R$ 2.864</div>
+        <div><span class="impact-badge high">Prioritário</span></div>
+      </div>
+    </div>
+
+    <div class="strategy-item">
+      <div class="strategy-number">02</div>
+      <div class="strategy-content">
+        <h4>Investigar a despesa de Saúde (R$ 4.390,68)</h4>
+        <p>Saúde subiu 250% em abril, chegando a R$ 4.390 — valor atípico que precisa ser contextualizado. Se foi despesa pontual (procedimento, exame, dentista), deve ser tratada como excepcional e não recorrente. Se recorrente, uma renegociação ou revisão de coberturas pode trazer redução significativa. O plano de saúde já está separado em R$ 323,31 — mapear os demais R$ 4.067 é urgente.</p>
+      </div>
+      <div class="strategy-impact">
+        <div class="impact-label">Impacto</div>
+        <div class="impact-value">A mapear</div>
+        <div><span class="impact-badge high">Prioritário</span></div>
+      </div>
+    </div>
+
+    <div class="strategy-item">
+      <div class="strategy-number">03</div>
+      <div class="strategy-content">
+        <h4>Revisão da despesa com Academia (R$ 1.940)</h4>
+        <p>A academia saltou 399% de março para abril, chegando a R$ 1.940. Verificar se inclui matrícula, plano anual parcelado ou mensalidade regular. Se mensalidade, este valor supera o padrão de academias premium no Rio (R$ 300–800/mês). Renegociar ou migrar pode liberar R$ 1.000–1.500/mês de forma sustentável.</p>
+      </div>
+      <div class="strategy-impact">
+        <div class="impact-label">Impacto</div>
+        <div class="impact-value">-R$ 1.200</div>
+        <div><span class="impact-badge high">Prioritário</span></div>
+      </div>
+    </div>
+
+    <div class="strategy-item">
+      <div class="strategy-number">04</div>
+      <div class="strategy-content">
+        <h4>Planejamento de gastos Aéreos (R$ 1.651,49)</h4>
+        <p>Os gastos com passagens aéreas somaram R$ 1.651 em abril, dentro de uma tendência de R$ 1.586–R$ 2.254 nos últimos 3 meses. Consolidar viagens, usar milhas acumuladas e planejar com antecedência pode reduzir este custo em 30–40%, economizando R$ 500–700/mês ao longo do tempo.</p>
+      </div>
+      <div class="strategy-impact">
+        <div class="impact-label">Impacto</div>
+        <div class="impact-value">-R$ 600</div>
+        <div><span class="impact-badge med">Analisar</span></div>
+      </div>
+    </div>
+
+    <div class="strategy-item">
+      <div class="strategy-number">05</div>
+      <div class="strategy-content">
+        <h4>Diversificar fontes de receita passiva</h4>
+        <p>Victor possui patrimônio financeiro de R$ 415.556. Explorar produtos de renda fixa que gerem ao menos R$ 2.000/mês em rendimentos seria transformador para o equilíbrio do fluxo. A taxas de 1% a.m., o patrimônio atual já suportaria esse nível sem resgates, transformando a dinâmica deficitária dos últimos meses.</p>
+      </div>
+      <div class="strategy-impact">
+        <div class="impact-label">Potencial</div>
+        <div class="impact-value">+R$ 2.000</div>
+        <div><span class="impact-badge low">Estrutural</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PATRIMÔNIO -->
+  <div class="section-header">
+    <span class="section-title">Situação Patrimonial</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="patrimonial-card">
+    <div>
+      <div class="patrimonial-label">Patrimônio Financeiro Acumulado</div>
+      <div class="patrimonial-value">R$ 415.556,41</div>
+      <div class="patrimonial-note">Base sólida construída ao longo dos anos. A preservação deste patrimônio é o principal ativo estratégico de Victor. O déficit mensal recorrente está corroendo este ativo — reverter esta dinâmica é a prioridade máxima da reestruturação financeira.</div>
+    </div>
+    <div style="text-align:right">
+      <div class="diff-label">Impacto Patrimonial Abr</div>
+      <div class="diff-value">-R$ 9.112,48</div>
+      <div style="font-size:11px; color:var(--text-dim); margin-top:8px">Déficit operacional<br>a ser coberto por reservas</div>
+      <div style="margin-top:12px; padding:12px 16px; background:rgba(192,57,43,0.08); border:1px solid rgba(192,57,43,0.2); border-radius:3px">
+        <div style="font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--red-light); margin-bottom:4px">Atenção Necessária</div>
+        <div style="font-size:12px; color:var(--text-muted)">Dois meses consecutivos de déficit relevante corroem o patrimônio construído</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONCLUSÃO -->
+  <div class="section-header">
+    <span class="section-title">Síntese e Próximos Passos</span>
+    <div class="line"></div>
+  </div>
+
+  <div class="analysis-card">
+    <h3>O caminho para o equilíbrio</h3>
+    <p>
+      Abril de 2026 fecha com um déficit de <span class="red-text">-R$ 9.112,48</span>, com o total de saídas (R$ 32.025,99) superando a receita (R$ 22.913,51) em 39,8%. Os dois principais vetores do desequilíbrio são as despesas de <span class="highlight-text">Estilo de Vida (R$ 13.361,35)</span> e os gastos essenciais elevados por saúde pontual, que juntos consomem 117% da receita antes mesmo dos investimentos.
+    </p>
+    <p>
+      O ponto positivo é que parte significativa do gasto de saúde (R$ 4.390) e a oscilação da academia (R$ 1.940) podem ser pontuais ou renegociáveis — o que significa que o déficit estrutural recorrente pode ser consideravelmente menor do que o observado em abril. Uma análise detalhada destas duas categorias é o primeiro passo para separar o que é situacional do que é estrutural.
+    </p>
+    <p>
+      Como Housel ensina: <span class="gold-text">"Você não precisa de um rendimento enorme para ter uma vida financeira extraordinária — precisa apenas de comportamentos extraordinários."</span> O patrimônio de R$ 415.556 é prova de que Victor é capaz disso. O próximo capítulo é sobre <span class="highlight-text">reconectar o comportamento diário à visão de longo prazo</span> que já construiu.
+    </p>
+
+    <div class="racional">
+      <div class="racional-title">Ações Prioritárias para Maio 2026</div>
+      <p>
+        <strong style="color:var(--text)">1.</strong> Mapear e justificar despesa de Saúde (R$ 4.390,68): pontual ou recorrente?<br>
+        <strong style="color:var(--text)">2.</strong> Auditoria de Compras Diversas (R$ 5.729,44) — identificar recorrentes e estabelecer teto de R$ 2.500.<br>
+        <strong style="color:var(--text)">3.</strong> Esclarecer natureza da despesa com Academia (R$ 1.940): matrícula, plano anual ou mensalidade?<br>
+        <strong style="color:var(--text)">4.</strong> Estabelecer teto mensal de R$ 7.000 para Estilo de Vida total (meta: ≤30% da receita).<br>
+        <strong style="color:var(--text)">5.</strong> Explorar alocação do patrimônio em ativos de renda fixa geradores de renda passiva mínima de R$ 2.000/mês.
+      </p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand">GM Assessoria Financeira</div>
+    <div class="footer-note">
+      Relatório gerado para uso exclusivo de Victor Andrade<br>
+      Rio de Janeiro, RJ · Abril 2026
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
